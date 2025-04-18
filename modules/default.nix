@@ -147,8 +147,8 @@ let
     set -euo pipefail
     source ${./utils.sh}
 
-    NIX_HOMEBREW_UID=$(id -u "${cfg.user}" || (error "Failed to get UID of ${cfg.user}"; exit 1))
-    NIX_HOMEBREW_GID=$(dscl . -read "/Groups/${cfg.group}" | awk '($1 == "PrimaryGroupID:") { print $2 }' || (error "Failed to get GID of ${cfg.group}"; exit 1))
+    NIX_HOMEBREW_UID=$(echo $SUDO_UID || (error "Failed to get UID of ${cfg.user}"; exit 1))
+    NIX_HOMEBREW_GID=$(echo $SUDO_GID || (error "Failed to get GID of ${cfg.group}"; exit 1))
 
     is_in_nix_store() {
       # /nix/store/anything -> inside
